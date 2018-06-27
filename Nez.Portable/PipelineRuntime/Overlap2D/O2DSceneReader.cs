@@ -1,99 +1,92 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Nez.Overlap2D
 {
-	public class O2DSceneReader : ContentTypeReader<O2DScene>
-	{
-		protected override O2DScene Read( ContentReader reader, O2DScene existingInstance )
-		{
-			var scene = new O2DScene();
-			scene.sceneName = reader.ReadString();
-			scene.ambientColor = reader.ReadColor();
-			scene.composite = readComposite( reader );
+    public class O2DSceneReader : ContentTypeReader<O2DScene>
+    {
+        protected override O2DScene Read(ContentReader reader, O2DScene existingInstance)
+        {
+            var scene = new O2DScene();
+            scene.sceneName = reader.ReadString();
+            scene.ambientColor = reader.ReadColor();
+            scene.composite = readComposite(reader);
 
-			return scene;
-		}
+            return scene;
+        }
 
+        O2DComposite readComposite(ContentReader reader)
+        {
+            var composite = new O2DComposite();
 
-		O2DComposite readComposite( ContentReader reader )
-		{
-			var composite = new O2DComposite();
+            var imageCount = reader.ReadInt32();
+            for (var i = 0; i < imageCount; i++)
+            {
+                var image = new O2DImage();
+                readMainItem(reader, image);
+                image.imageName = reader.ReadString();
 
-			var imageCount = reader.ReadInt32();
-			for( var i = 0; i < imageCount; i++ )
-			{
-				var image = new O2DImage();
-				readMainItem( reader, image );
-				image.imageName = reader.ReadString();
+                composite.images.Add(image);
+            }
 
-				composite.images.Add( image );
-			}
+            var colorPrimitiveCount = reader.ReadInt32();
+            for (var i = 0; i < colorPrimitiveCount; i++)
+            {
+                var colorPrim = new O2DColorPrimitive();
+                readMainItem(reader, colorPrim);
+                readColorPrimitive(reader, colorPrim);
 
+                composite.colorPrimitives.Add(colorPrim);
+            }
 
-			var colorPrimitiveCount = reader.ReadInt32();
-			for( var i = 0; i < colorPrimitiveCount; i++ )
-			{
-				var colorPrim = new O2DColorPrimitive();
-				readMainItem( reader, colorPrim );
-				readColorPrimitive( reader, colorPrim );
+            var compositeItemCount = reader.ReadInt32();
+            for (var i = 0; i < compositeItemCount; i++)
+            {
+                var compositeItem = new O2DCompositeItem();
+                readMainItem(reader, compositeItem);
+                compositeItem.composite = readComposite(reader);
 
-				composite.colorPrimitives.Add( colorPrim );
-			}
+                composite.compositeItems.Add(compositeItem);
+            }
 
+            return composite;
+        }
 
-			var compositeItemCount = reader.ReadInt32();
-			for( var i = 0; i < compositeItemCount; i++ )
-			{
-				var compositeItem = new O2DCompositeItem();
-				readMainItem( reader, compositeItem );
-				compositeItem.composite = readComposite( reader );
+        void readMainItem(ContentReader reader, O2DMainItem item)
+        {
+            item.uniqueId = reader.ReadInt32();
+            item.itemIdentifier = reader.ReadString();
+            item.itemName = reader.ReadString();
+            item.customVars = reader.ReadString();
+            item.x = reader.ReadSingle();
+            item.y = reader.ReadSingle();
+            item.scaleX = reader.ReadSingle();
+            item.scaleY = reader.ReadSingle();
+            item.originX = reader.ReadSingle();
+            item.originY = reader.ReadSingle();
+            item.rotation = reader.ReadSingle();
+            item.zIndex = reader.ReadInt32();
+            item.layerDepth = reader.ReadSingle();
+            item.layerName = reader.ReadString();
+            item.renderLayer = reader.ReadInt32();
+            item.tint = reader.ReadColor();
+        }
 
-				composite.compositeItems.Add( compositeItem );
-			}
+        void readColorPrimitive(ContentReader reader, O2DColorPrimitive colorPrim)
+        {
+            var count = reader.ReadInt32();
 
-			return composite;
-		}
+            // special care needs to be taken here. if we have 4 verts everything will be fine. If we have any other number we need to
+            // reverse the array
+            colorPrim.polygon = new Vector2[count];
 
+            for (var i = 0; i < count; i++)
+                colorPrim.polygon[i] = reader.ReadVector2();
 
-		void readMainItem( ContentReader reader, O2DMainItem item )
-		{
-			item.uniqueId = reader.ReadInt32();
-			item.itemIdentifier = reader.ReadString();
-			item.itemName = reader.ReadString();
-			item.customVars = reader.ReadString();
-			item.x = reader.ReadSingle();
-			item.y = reader.ReadSingle();
-			item.scaleX = reader.ReadSingle();
-			item.scaleY = reader.ReadSingle();
-			item.originX = reader.ReadSingle();
-			item.originY = reader.ReadSingle();
-			item.rotation = reader.ReadSingle();
-			item.zIndex = reader.ReadInt32();
-			item.layerDepth = reader.ReadSingle();
-			item.layerName = reader.ReadString();
-			item.renderLayer = reader.ReadInt32();
-			item.tint = reader.ReadColor();
-		}
-
-
-		void readColorPrimitive( ContentReader reader, O2DColorPrimitive colorPrim )
-		{
-			var count = reader.ReadInt32();
-
-			// special care needs to be taken here. if we have 4 verts everything will be fine. If we have any other number we need to
-			// reverse the array
-			colorPrim.polygon = new Vector2[count];
-
-			for( var i = 0; i < count; i++ )
-				colorPrim.polygon[i] = reader.ReadVector2();
-
-			if( count != 4 )
-				Array.Reverse( colorPrim.polygon );
-		}
-
-	}
+            if (count != 4)
+                Array.Reverse(colorPrim.polygon);
+        }
+    }
 }
-

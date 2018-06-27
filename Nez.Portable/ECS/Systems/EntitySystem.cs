@@ -1,106 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Nez
 {
-	public class EntitySystem
-	{
-		public Matcher matcher
-		{
-			get { return _matcher; }
-		}
+    public class EntitySystem
+    {
+        public Matcher matcher
+        {
+            get
+            {
+                return _matcher;
+            }
+        }
 
-		public Scene scene
-		{
-			get { return _scene; }
-			set
-			{
-				_scene = value;
-				_entities = new List<Entity>();
-			}
-		}
+        public Scene scene
+        {
+            get
+            {
+                return _scene;
+            }
 
-		protected Matcher _matcher;
-		protected List<Entity> _entities = new List<Entity>();
-		protected Scene _scene;
+            set
+            {
+                _scene = value;
+                _entities = new List<Entity>();
+            }
+        }
 
+        protected Matcher _matcher;
 
-		public EntitySystem()
-		{
-			_matcher = Matcher.empty();
-		}
+        protected List<Entity> _entities = new List<Entity>();
 
+        protected Scene _scene;
 
-		public EntitySystem( Matcher matcher )
-		{
-			_matcher = matcher;
-		}
+        public EntitySystem()
+        {
+            _matcher = Matcher.empty();
+        }
 
+        public EntitySystem(Matcher matcher)
+        {
+            _matcher = matcher;
+        }
 
-		public virtual void onChange( Entity entity )
-		{
-			var contains = _entities.Contains( entity );
-			var interest = _matcher.isInterested( entity );
+        public virtual void onChange(Entity entity)
+        {
+            var contains = _entities.Contains(entity);
+            var interest = _matcher.isInterested(entity);
 
-			if( interest && !contains )
-				add( entity );
-			else if( !interest && contains )
-				remove( entity );
-		}
+            if (interest && !contains)
+                add(entity);
+            else if (!interest && contains)
+                remove(entity);
+        }
 
+        public virtual void add(Entity entity)
+        {
+            _entities.Add(entity);
+            onAdded(entity);
+        }
 
-		public virtual void add( Entity entity )
-		{
-			_entities.Add( entity );
-			onAdded( entity );
-		}
+        public virtual void remove(Entity entity)
+        {
+            _entities.Remove(entity);
+            onRemoved(entity);
+        }
 
+        public virtual void onAdded(Entity entity)
+        {
+        }
 
-		public virtual void remove( Entity entity )
-		{
-			_entities.Remove( entity );
-			onRemoved( entity );
-		}
+        public virtual void onRemoved(Entity entity)
+        {
+        }
 
+        protected virtual void process(List<Entity> entities)
+        {
+        }
 
-		public virtual void onAdded( Entity entity )
-		{}
-
-
-		public virtual void onRemoved( Entity entity )
-		{}
-
-
-		protected virtual void process( List<Entity> entities )
-		{}
-
-
-        protected virtual void lateProcess( List<Entity> entities )
-        {}
-
+        protected virtual void lateProcess(List<Entity> entities)
+        {
+        }
 
         protected virtual void begin()
-		{}
+        {
+        }
 
-
-		public void update()
-		{
-			begin();
-			process( _entities );
-		}
-
+        public void update()
+        {
+            begin();
+            process(_entities);
+        }
 
         public void lateUpdate()
         {
-            lateProcess( _entities );
+            lateProcess(_entities);
             end();
         }
 
-
         protected virtual void end()
-		{}
-
-	}
+        {
+        }
+    }
 }
-

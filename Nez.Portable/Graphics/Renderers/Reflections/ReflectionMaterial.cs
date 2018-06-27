@@ -1,38 +1,37 @@
 ﻿using System;
-using Nez;
-using Microsoft.Xna.Framework.Graphics;
-using Nez.Textures;
 
+using Microsoft.Xna.Framework.Graphics;
+
+using Nez;
+using Nez.Textures;
 
 namespace Nez
 {
-	/// <summary>
-	/// used in conjunction with the ReflectionRenderer
-	/// </summary>
-	public class ReflectionMaterial : Material<ReflectionEffect>
-	{
-		public RenderTexture renderTexture;
+    /// <summary>
+    /// used in conjunction with the ReflectionRenderer
+    /// </summary>
+    public class ReflectionMaterial : Material<ReflectionEffect>
+    {
+        public RenderTexture renderTexture;
 
-		RenderTarget2D _renderTarget;
+        RenderTarget2D _renderTarget;
 
+        public ReflectionMaterial(ReflectionRenderer reflectionRenderer)
+            : base(new ReflectionEffect())
+        {
+            renderTexture = reflectionRenderer.renderTexture;
+        }
 
-		public ReflectionMaterial( ReflectionRenderer reflectionRenderer ) : base( new ReflectionEffect() )
-		{
-			renderTexture = reflectionRenderer.renderTexture;
-		}
+        public override void onPreRender(Camera camera)
+        {
+            // only update the Shader when the renderTarget changes. it will be swapped out whenever the GraphicsDevice resets.
+            if (_renderTarget == null || _renderTarget != renderTexture.renderTarget)
+            {
+                _renderTarget = renderTexture.renderTarget;
+                effect.renderTexture = renderTexture.renderTarget;
+            }
 
-
-		public override void onPreRender( Camera camera )
-		{
-			// only update the Shader when the renderTarget changes. it will be swapped out whenever the GraphicsDevice resets.
-			if( _renderTarget == null || _renderTarget != renderTexture.renderTarget )
-			{
-				_renderTarget = renderTexture.renderTarget;
-				effect.renderTexture = renderTexture.renderTarget;
-			}
-
-			effect.matrixTransform = camera.viewProjectionMatrix;
-		}
-	}
+            effect.matrixTransform = camera.viewProjectionMatrix;
+        }
+    }
 }
-

@@ -2,37 +2,43 @@
 
 namespace Nez
 {
-	public enum HorizontalAlign
-	{
-		Left,
-		Center,
-		Right
-	}
+    public enum HorizontalAlign
+    {
+        Left,
 
+        Center,
 
-	public enum VerticalAlign
-	{
-		Top,
-		Center,
-		Bottom
-	}
+        Right
+    }
 
+    public enum VerticalAlign
+    {
+        Top,
 
-	public enum Edge
-	{
-		Top,
-		Bottom,
-		Left,
-		Right
-	}
+        Center,
 
+        Bottom
+    }
 
-	public enum Direction
-	{
-		Up,
-		Down,
-		Left,
-		Right
-	}
+    public enum Edge
+    {
+        Top,
+
+        Bottom,
+
+        Left,
+
+        Right
+    }
+
+    public enum Direction
+    {
+        Up,
+
+        Down,
+
+        Left,
+
+        Right
+    }
 }
-

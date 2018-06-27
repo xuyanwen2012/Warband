@@ -1,92 +1,102 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Nez
 {
-	public class SpriteAlphaTestEffect : Effect
-	{
-		public enum AlphaTestCompareFunction
-		{
-			Greater,
-			LessThan,
-			Always,
-			Never
-		}
+    public class SpriteAlphaTestEffect : Effect
+    {
+        public enum AlphaTestCompareFunction
+        {
+            Greater,
 
-		/// <summary>
-		/// alpha value used for the comparison. Should be in the 0 - 1 range. Defaults to 0.5f.
-		/// </summary>
-		/// <value>The reference alpha.</value>
-		public float referenceAlpha
-		{
-			get { return _referenceAlpha; }
-			set
-			{
-				if( _referenceAlpha != value )
-				{
-					_referenceAlpha = value;
-					updateEffectParameter();
-				}
-			}
-		}
+            LessThan,
 
-		public AlphaTestCompareFunction compareFunction
-		{
-			get { return _compareFunction; }
-			set
-			{
-				if( _compareFunction != value )
-				{
-					_compareFunction = value;
-					updateEffectParameter();
-				}
-			}
-		}
+            Always,
 
-		float _referenceAlpha = 0.5f;
-		AlphaTestCompareFunction _compareFunction = AlphaTestCompareFunction.Greater;
+            Never
+        }
 
-		EffectParameter _alphaTestParam;
+        /// <summary>
+        /// alpha value used for the comparison. Should be in the 0 - 1 range. Defaults to 0.5f.
+        /// </summary>
+        /// <value>The reference alpha.</value>
+        public float referenceAlpha
+        {
+            get
+            {
+                return _referenceAlpha;
+            }
 
+            set
+            {
+                if (_referenceAlpha != value)
+                {
+                    _referenceAlpha = value;
+                    updateEffectParameter();
+                }
+            }
+        }
 
-		public SpriteAlphaTestEffect() : base( Core.graphicsDevice, EffectResource.spriteAlphaTestBytes )
-		{
-			_alphaTestParam = Parameters["_alphaTest"];
-			updateEffectParameter();
-		}
+        public AlphaTestCompareFunction compareFunction
+        {
+            get
+            {
+                return _compareFunction;
+            }
 
+            set
+            {
+                if (_compareFunction != value)
+                {
+                    _compareFunction = value;
+                    updateEffectParameter();
+                }
+            }
+        }
 
-		void updateEffectParameter()
-		{
-			var value = new Vector3();
+        float _referenceAlpha = 0.5f;
 
-			// reference alpha is packed in the x param
-			value.X = _referenceAlpha;
+        AlphaTestCompareFunction _compareFunction = AlphaTestCompareFunction.Greater;
 
-			switch( _compareFunction )
-			{
-				case AlphaTestCompareFunction.Greater:
-					value.Y = -1;
-					value.Z = 1;
-					break;
-				case AlphaTestCompareFunction.LessThan:
-					value.Y = 1;
-					value.Z = -1;
-					break;
-				case AlphaTestCompareFunction.Always:
-					value.Y = 1;
-					value.Z = 1;
-					break;
-				case AlphaTestCompareFunction.Never:
-					value.Y = -1;
-					value.Z = -1;
-					break;
-			}
+        EffectParameter _alphaTestParam;
 
-			_alphaTestParam.SetValue( value );
-		}
-	}
+        public SpriteAlphaTestEffect()
+            : base(Core.graphicsDevice, EffectResource.spriteAlphaTestBytes)
+        {
+            _alphaTestParam = Parameters["_alphaTest"];
+            updateEffectParameter();
+        }
+
+        void updateEffectParameter()
+        {
+            var value = new Vector3();
+
+            // reference alpha is packed in the x param
+            value.X = _referenceAlpha;
+
+            switch (_compareFunction)
+            {
+                case AlphaTestCompareFunction.Greater:
+                    value.Y = -1;
+                    value.Z = 1;
+                    break;
+                case AlphaTestCompareFunction.LessThan:
+                    value.Y = 1;
+                    value.Z = -1;
+                    break;
+                case AlphaTestCompareFunction.Always:
+                    value.Y = 1;
+                    value.Z = 1;
+                    break;
+                case AlphaTestCompareFunction.Never:
+                    value.Y = -1;
+                    value.Z = -1;
+                    break;
+            }
+
+            _alphaTestParam.SetValue(value);
+        }
+    }
 }
-

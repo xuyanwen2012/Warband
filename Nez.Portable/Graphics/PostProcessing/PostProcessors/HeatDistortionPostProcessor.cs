@@ -1,78 +1,90 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Nez
 {
-	public class HeatDistortionPostProcessor : PostProcessor
-	{
-		public float distortionFactor
-		{
-			get { return _distortionFactor; }
-			set
-			{
-				if( _distortionFactor != value )
-				{
-					_distortionFactor = value;
+    public class HeatDistortionPostProcessor : PostProcessor
+    {
+        public float distortionFactor
+        {
+            get
+            {
+                return _distortionFactor;
+            }
 
-					if( effect != null )
-						_distortionFactorParam.SetValue( _distortionFactor );
-				}
-			}
-		}
+            set
+            {
+                if (_distortionFactor != value)
+                {
+                    _distortionFactor = value;
 
-		public float riseFactor
-		{
-			get { return _riseFactor; }
-			set
-			{
-				if( _riseFactor != value )
-				{
-					_riseFactor = value;
+                    if (effect != null)
+                        _distortionFactorParam.SetValue(_distortionFactor);
+                }
+            }
+        }
 
-					if( effect != null )
-						_riseFactorParam.SetValue( _riseFactor );
-				}
-			}
-		}
+        public float riseFactor
+        {
+            get
+            {
+                return _riseFactor;
+            }
 
-		public Texture2D distortionTexture
-		{
-			set { effect.Parameters["_distortionTexture"].SetValue( value ); }
-		}
+            set
+            {
+                if (_riseFactor != value)
+                {
+                    _riseFactor = value;
 
+                    if (effect != null)
+                        _riseFactorParam.SetValue(_riseFactor);
+                }
+            }
+        }
 
-		float _distortionFactor = 0.005f;
-		float _riseFactor = 0.15f;
-		EffectParameter _timeParam;
-		EffectParameter _distortionFactorParam;
-		EffectParameter _riseFactorParam;
+        public Texture2D distortionTexture
+        {
+            set
+            {
+                effect.Parameters["_distortionTexture"].SetValue(value);
+            }
+        }
 
+        float _distortionFactor = 0.005f;
 
-		public HeatDistortionPostProcessor( int executionOrder ) : base( executionOrder )
-		{}
+        float _riseFactor = 0.15f;
 
+        EffectParameter _timeParam;
 
-		public override void onAddedToScene()
-		{
-			effect = scene.content.loadEffect<Effect>( "heatDistortion", EffectResource.heatDistortionBytes );
+        EffectParameter _distortionFactorParam;
 
-			_timeParam = effect.Parameters["_time"];
-			_distortionFactorParam = effect.Parameters["_distortionFactor"];
-			_riseFactorParam = effect.Parameters["_riseFactor"];
+        EffectParameter _riseFactorParam;
 
-			_distortionFactorParam.SetValue( _distortionFactor );
-			_riseFactorParam.SetValue( _riseFactor );
+        public HeatDistortionPostProcessor(int executionOrder)
+            : base(executionOrder)
+        {
+        }
 
-			distortionTexture = scene.content.Load<Texture2D>( "nez/textures/heatDistortionNoise" );
-		}
+        public override void onAddedToScene()
+        {
+            effect = scene.content.loadEffect<Effect>("heatDistortion", EffectResource.heatDistortionBytes);
 
+            _timeParam = effect.Parameters["_time"];
+            _distortionFactorParam = effect.Parameters["_distortionFactor"];
+            _riseFactorParam = effect.Parameters["_riseFactor"];
 
-		public override void process( RenderTarget2D source, RenderTarget2D destination )
-		{
-			_timeParam.SetValue( Time.time );
-			base.process( source, destination );
-		}
-	}
+            _distortionFactorParam.SetValue(_distortionFactor);
+            _riseFactorParam.SetValue(_riseFactor);
+
+            distortionTexture = scene.content.Load<Texture2D>("nez/textures/heatDistortionNoise");
+        }
+
+        public override void process(RenderTarget2D source, RenderTarget2D destination)
+        {
+            _timeParam.SetValue(Time.time);
+            base.process(source, destination);
+        }
+    }
 }
-
