@@ -12,7 +12,7 @@
         protected override void Initialize()
         {
             base.Initialize();
-            scene = new SceneMap();
+            Scene = new SceneMap();
         }
     }
 }

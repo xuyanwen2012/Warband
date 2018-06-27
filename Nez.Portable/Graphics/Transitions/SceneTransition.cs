@@ -136,7 +136,7 @@ namespace Nez
                             syncContext.Post(
                                 d =>
                                     {
-                                        Core.scene = scene;
+                                        Core.Scene = scene;
                                         _isNewSceneLoaded = true;
                                     },
                                 null);
@@ -144,7 +144,7 @@ namespace Nez
             }
             else
             {
-                Core.scene = sceneLoadAction();
+                Core.Scene = sceneLoadAction();
                 _isNewSceneLoaded = true;
             }
 
@@ -160,7 +160,7 @@ namespace Nez
         public virtual IEnumerator onBeginTransition()
         {
             yield return null;
-            Core.scene = sceneLoadAction();
+            Core.Scene = sceneLoadAction();
             transitionComplete();
         }
 

@@ -158,7 +158,7 @@ namespace Nez
         protected virtual void debugRender(Scene scene, Camera cam)
         {
             Graphics.instance.batcher.end();
-            Graphics.instance.batcher.begin(Core.scene.camera.transformMatrix);
+            Graphics.instance.batcher.begin(Core.Scene.camera.transformMatrix);
 
             for (var i = 0; i < scene.entities.count; i++)
             {

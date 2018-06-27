@@ -106,7 +106,7 @@ namespace Nez
             if (_updateOrder != updateOrder)
             {
                 _updateOrder = updateOrder;
-                Core.scene._sceneComponents.sort();
+                Core.Scene._sceneComponents.sort();
             }
 
             return this;

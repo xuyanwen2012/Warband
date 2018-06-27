@@ -216,7 +216,7 @@ namespace Nez.DeferredLighting
                 }
             }
 
-            if (shouldDebugRender && Core.debugRenderEnabled)
+            if (shouldDebugRender && Core.DebugRenderEnabled)
                 debugRender(scene, scene.camera);
 
             endRender();

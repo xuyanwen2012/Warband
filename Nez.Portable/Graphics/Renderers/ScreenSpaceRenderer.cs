@@ -33,7 +33,7 @@ namespace Nez
                 }
             }
 
-            if (shouldDebugRender && Core.debugRenderEnabled)
+            if (shouldDebugRender && Core.DebugRenderEnabled)
                 debugRender(scene, camera);
 
             endRender();
@@ -45,7 +45,7 @@ namespace Nez
 
             // this is a bit of a hack. we maybe should take the Camera in the constructor
             if (camera == null)
-                camera = Core.scene.createEntity("screenspace camera").addComponent<Camera>();
+                camera = Core.Scene.createEntity("screenspace camera").addComponent<Camera>();
         }
     }
 }

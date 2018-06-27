@@ -58,7 +58,7 @@ namespace Nez.Console
             }
             else if (entityName != string.Empty)
             {
-                var entity = Core.scene.findEntity(entityName);
+                var entity = Core.Scene.findEntity(entityName);
                 if (entity == null)
                 {
                     instance.log("could not find entity named " + entityName);
@@ -80,7 +80,7 @@ namespace Nez.Console
         static void logLoadedAssets(string whichAssets = "s")
         {
             if (whichAssets == "s")
-                DebugConsole.instance.log(Core.scene.content.logLoadedAssets());
+                DebugConsole.instance.log(Core.Scene.content.logLoadedAssets());
             else if (whichAssets == "g")
                 DebugConsole.instance.log(Core.content.logLoadedAssets());
             else
@@ -131,18 +131,18 @@ namespace Nez.Console
             "Logs amount of Entities in the Scene. Pass a tagIndex to count only Entities with that tag")]
         static void entityCount(int tagIndex = -1)
         {
-            if (Core.scene == null)
+            if (Core.Scene == null)
             {
                 DebugConsole.instance.log("Current Scene is null!");
                 return;
             }
 
             if (tagIndex < 0)
-                DebugConsole.instance.log("Total entities: " + Core.scene.entities.count.ToString());
+                DebugConsole.instance.log("Total entities: " + Core.Scene.entities.count.ToString());
             else
                 DebugConsole.instance.log(
                     "Total entities with tag [" + tagIndex + "] "
-                    + Core.scene.findEntitiesWithTag(tagIndex).Count.ToString());
+                    + Core.Scene.findEntitiesWithTag(tagIndex).Count.ToString());
         }
 
         [Command(
@@ -150,7 +150,7 @@ namespace Nez.Console
             "Logs amount of Renderables in the Scene. Pass a renderLayer to count only Renderables in that layer")]
         static void renderableCount(int renderLayer = int.MinValue)
         {
-            if (Core.scene == null)
+            if (Core.Scene == null)
             {
                 DebugConsole.instance.log("Current Scene is null!");
                 return;
@@ -158,10 +158,10 @@ namespace Nez.Console
 
             if (renderLayer != int.MinValue)
                 DebugConsole.instance.log(
-                    "Total renderables with tag [" + renderLayer + "] " + Core.scene.renderableComponents
+                    "Total renderables with tag [" + renderLayer + "] " + Core.Scene.renderableComponents
                         .componentsWithRenderLayer(renderLayer).length.ToString());
             else
-                DebugConsole.instance.log("Total renderables: " + Core.scene.renderableComponents.count.ToString());
+                DebugConsole.instance.log("Total renderables: " + Core.Scene.renderableComponents.count.ToString());
         }
 
         [Command(
@@ -169,16 +169,16 @@ namespace Nez.Console
             "Logs the Renderables in the Scene. Pass a renderLayer to log only Renderables in that layer")]
         static void renderableLog(int renderLayer = int.MinValue)
         {
-            if (Core.scene == null)
+            if (Core.Scene == null)
             {
                 DebugConsole.instance.log("Current Scene is null!");
                 return;
             }
 
             var builder = new StringBuilder();
-            for (var i = 0; i < Core.scene.renderableComponents.count; i++)
+            for (var i = 0; i < Core.Scene.renderableComponents.count; i++)
             {
-                var renderable = Core.scene.renderableComponents[i];
+                var renderable = Core.Scene.renderableComponents[i];
                 if (renderLayer == int.MinValue || renderable.renderLayer == renderLayer)
                     builder.AppendFormat("{0}\n", renderable);
             }
@@ -189,15 +189,15 @@ namespace Nez.Console
         [Command("entity-list", "Logs all entities")]
         static void logEntities(string whichAssets = "s")
         {
-            if (Core.scene == null)
+            if (Core.Scene == null)
             {
                 DebugConsole.instance.log("Current Scene is null!");
                 return;
             }
 
             var builder = new StringBuilder();
-            for (var i = 0; i < Core.scene.entities.count; i++)
-                builder.AppendLine(Core.scene.entities[i].ToString());
+            for (var i = 0; i < Core.Scene.entities.count; i++)
+                builder.AppendLine(Core.Scene.entities[i].ToString());
 
             DebugConsole.instance.log(builder.ToString());
         }
@@ -212,8 +212,8 @@ namespace Nez.Console
         static void physics(float secondsToDisplay = 5f)
         {
             // store off the current state so we can reset it when we are done
-            var debugRenderState = Core.debugRenderEnabled;
-            Core.debugRenderEnabled = true;
+            var debugRenderState = Core.DebugRenderEnabled;
+            Core.DebugRenderEnabled = true;
 
             var ticker = 0f;
             Core.schedule(
@@ -227,7 +227,7 @@ namespace Nez.Console
                         if (ticker >= secondsToDisplay)
                         {
                             timer.stop();
-                            Core.debugRenderEnabled = debugRenderState;
+                            Core.DebugRenderEnabled = debugRenderState;
                         }
                     });
 
@@ -238,9 +238,9 @@ namespace Nez.Console
         [Command("debug-render", "enables/disables debug rendering")]
         static void debugRender()
         {
-            Core.debugRenderEnabled = !Core.debugRenderEnabled;
+            Core.DebugRenderEnabled = !Core.DebugRenderEnabled;
             DebugConsole.instance.log(
-                string.Format("Debug rendering {0}", Core.debugRenderEnabled ? "enabled" : "disabled"));
+                string.Format("Debug rendering {0}", Core.DebugRenderEnabled ? "enabled" : "disabled"));
         }
 
         [Command("help", "Shows usage help for a given command")]

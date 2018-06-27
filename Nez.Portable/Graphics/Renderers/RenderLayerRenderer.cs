@@ -37,7 +37,7 @@ namespace Nez
                 }
             }
 
-            if (shouldDebugRender && Core.debugRenderEnabled)
+            if (shouldDebugRender && Core.DebugRenderEnabled)
                 debugRender(scene, cam);
 
             endRender();

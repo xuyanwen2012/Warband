@@ -10,7 +10,7 @@
         {
             base.Initialize();
 
-            setDefaultDesignResolution(1280 / 2, 768 / 2, SceneResolutionPolicy.ShowAllPixelPerfect);
+            SetDefaultDesignResolution(1280 / 2, 768 / 2, SceneResolutionPolicy.ShowAllPixelPerfect);
 
             Screen.setSize(1280, 768);
         }
