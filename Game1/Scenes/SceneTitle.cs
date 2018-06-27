@@ -12,7 +12,7 @@
 
             SetDefaultDesignResolution(1280 / 2, 768 / 2, SceneResolutionPolicy.ShowAllPixelPerfect);
 
-            Screen.setSize(1280, 768);
+            Screen.SetSize(1280, 768);
         }
 
         public override void Update()

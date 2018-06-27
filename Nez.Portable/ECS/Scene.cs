@@ -270,7 +270,7 @@ namespace Nez
 
             if (clearColor.HasValue)
                 scene.clearColor = clearColor.Value;
-            scene.addRenderer(new DefaultRenderer());
+            scene.AddRenderer(new DefaultRenderer());
             return scene;
         }
 
@@ -286,7 +286,7 @@ namespace Nez
 
             if (clearColor.HasValue)
                 scene.clearColor = clearColor.Value;
-            scene.addRenderer(new DefaultRenderer());
+            scene.AddRenderer(new DefaultRenderer());
             return scene;
         }
 
@@ -568,7 +568,7 @@ namespace Nez
         /// <param name="sceneResolutionPolicy">Scene resolution policy.</param>
         /// <param name="horizontalBleed">Horizontal bleed size. Used only if resolution policy is set to <see cref="SceneResolutionPolicy.BestFit"/>.</param>
         /// <param name="verticalBleed">Horizontal bleed size. Used only if resolution policy is set to <see cref="SceneResolutionPolicy.BestFit"/>.</param>
-        public void setDesignResolution(
+        public void SetDesignResolution(
             int width,
             int height,
             SceneResolutionPolicy sceneResolutionPolicy,
@@ -898,7 +898,7 @@ namespace Nez
         /// </summary>
         /// <returns>The renderer.</returns>
         /// <param name="renderer">Renderer.</param>
-        public T addRenderer<T>(T renderer)
+        public T AddRenderer<T>(T renderer)
             where T : Renderer
         {
             if (renderer.wantsToRenderAfterPostProcessors)

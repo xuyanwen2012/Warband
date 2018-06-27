@@ -24,7 +24,7 @@ namespace Nez
 
         public static ReflectionRenderer createAndSetupScene(Scene scene, int renderOrder, params int[] renderLayers)
         {
-            var reflectionRenderer = scene.addRenderer(new ReflectionRenderer(-1, renderLayers));
+            var reflectionRenderer = scene.AddRenderer(new ReflectionRenderer(-1, renderLayers));
             reflectionRenderer.renderTargetClearColor = Color.Transparent;
             reflectionRenderer.renderTexture = new RenderTexture(1, 1);
 

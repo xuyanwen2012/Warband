@@ -184,7 +184,7 @@ namespace Nez
         /// </summary>
         /// <param name="width">Width.</param>
         /// <param name="height">Height.</param>
-        public static void setSize(int width, int height)
+        public static void SetSize(int width, int height)
         {
             preferredBackBufferWidth = width;
             preferredBackBufferHeight = height;

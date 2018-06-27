@@ -6,15 +6,6 @@
 
     internal class SceneMap : SceneBase
     {
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            SetDefaultDesignResolution(1280 / 2, 768 / 2, SceneResolutionPolicy.ShowAllPixelPerfect);
-
-            Screen.setSize(1280, 768);
-        }
-
         public override void Update()
         {
             base.Update();
