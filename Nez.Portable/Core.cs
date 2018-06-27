@@ -254,7 +254,7 @@ namespace Nez
             }
 
             if (_scene != null)
-                _scene.update();
+                _scene.Update();
 
             if (_scene != _nextScene)
             {

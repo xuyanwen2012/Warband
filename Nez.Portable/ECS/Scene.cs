@@ -340,7 +340,7 @@ namespace Nez
             _designResolutionSize = _defaultDesignResolutionSize;
             _designBleedSize = _defaultDesignBleedSize;
 
-            initialize();
+            this.Initialize();
         }
 
         #region Scene lifecycle
@@ -349,7 +349,7 @@ namespace Nez
         /// override this in Scene subclasses and do your loading here. This is called from the contructor after the scene sets itself up but
         /// before begin is ever called.
         /// </summary>
-        public virtual void initialize()
+        public virtual void Initialize()
         {
         }
 
@@ -419,7 +419,7 @@ namespace Nez
             unload();
         }
 
-        public virtual void update()
+        public virtual void Update()
         {
             // we set the RenderTarget here so that the Viewport will match the RenderTarget properly
             Core.graphicsDevice.setRenderTarget(_sceneRenderTarget);
